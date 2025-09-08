@@ -4,101 +4,525 @@
 <head>
     <meta charset="UTF-8">
     <title>Happy Birthday</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ mobile scaling -->
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* Extra responsive tweaks */
-        .cake-wrap,
-        .photo-wrap {
-            max-width: 100%;
-            height: auto;
+        /* Background */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Roboto, Arial, sans-serif;
+            background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fcb69f, #ffecd2);
+            background-size: 800% 800%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
         }
 
-        img.responsive-img {
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .page {
             width: 100%;
-            height: auto;
-            display: block;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
-        @media (max-width: 600px) {
-            .greeting {
-                font-size: 1.6rem;
-                text-align: center;
+        /* Ribbon */
+        .ribbon {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #ff477e, #ffd166, #06d6a0, #118ab2, #ef476f);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.5rem;
+            padding: 0.7rem 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            animation: wave 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes wave {
+
+            0%,
+            100% {
+                transform: translateX(-50%) rotate(0deg);
             }
 
-            .sub {
-                text-align: center;
-                font-size: 1rem;
+            50% {
+                transform: translateX(-50%) rotate(1deg);
+            }
+        }
+
+        /* Hero card */
+        .hero {
+            max-width: 1250px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: flex-start;
+            position: relative;
+            backdrop-filter: blur(15px) saturate(150%);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 1.5s ease;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: -3px;
+            border-radius: 26px;
+            background: linear-gradient(45deg, #ff477e, #ffd166, #06d6a0, #118ab2, #ef476f, #ff477e);
+            background-size: 300% 300%;
+            animation: borderGlow 6s linear infinite;
+            z-index: -1;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                background-position: 0% 50%;
             }
 
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Greeting */
+        .greeting {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin: 0 0 .5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ff477e, #ff9a9e, #ffd166, #06d6a0, #118ab2);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineText 8s linear infinite, float 3s ease-in-out infinite;
+            text-align: center;
+            text-shadow: 0 0 12px rgba(255, 71, 126, 0.6);
+        }
+
+        @keyframes shineText {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .sub {
+            margin: 0 0 1.2rem;
+            color: #222;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        /* Frames */
+        .photo-wrap,
+        .cake-wrap {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 6px solid #fff;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(180deg, #fff, #f6f0ff);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .photo-wrap:hover,
+        .cake-wrap:hover {
+            transform: scale(1.05) rotate(-2deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-wrap::before,
+        .cake-wrap::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+            transform: skewX(-20deg);
+            animation: shine 5s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -75%;
+            }
+
+            50% {
+                left: 125%;
+            }
+
+            100% {
+                left: 125%;
+            }
+        }
+
+        /* Glow aura */
+        .photo-wrap::after,
+        .cake-wrap::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            box-shadow: 0 0 30px rgba(255, 71, 126, 0.3);
+            pointer-events: none;
+        }
+
+        .photo-wrap {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 1rem;
+        }
+
+        .cake-wrap {
+            width: 320px;
+            margin: 0 auto;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .cake-wrap:hover {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .photo-wrap img,
+        .cake-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Message card */
+        .message-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 500px;
+            background: #fffdfa;
+            padding: 1.8rem;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #444;
+            position: relative;
+            animation: fadeIn 2s ease;
+            border: 2px solid rgba(255, 71, 126, 0.3);
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .message-card h2 {
+            font-family: "Brush Script MT", cursive;
+            font-size: 1.8rem;
+            color: #ff477e;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .message-card::before {
+            content: "💌";
+            position: absolute;
+            top: -18px;
+            left: 20px;
+            font-size: 1.5rem;
+        }
+
+        /* Sparkles */
+        .sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .sparkles span {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.5);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Balloons */
+        .balloon {
+            position: fixed;
+            bottom: -100px;
+            border-radius: 50% 50% 45% 45%;
+            animation: rise 10s linear infinite;
+            z-index: 0;
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: #555;
+            transform: translateX(-50%);
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120vh) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* Music notes */
+        .notes {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: #ff477e;
+            animation: bounce 2s infinite;
+            z-index: 2;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
             .hero {
                 flex-direction: column;
-                padding: 1rem;
-                gap: 1.2rem;
+                padding: 1.5rem;
             }
 
             .left,
-            .right {
+            .right,
+            .message-card {
                 width: 100%;
-                justify-content: center;
                 text-align: center;
-            }
-
-            .cake-wrap {
-                width: 90% !important;
-                margin: 0 auto;
-            }
-
-            .photo-wrap {
-                margin: 0 auto;
             }
         }
     </style>
 </head>
 
 <body>
+    <div class="ribbon">🎀 Happy Birthday Celebration 🎀</div>
+
     <div class="page">
         <div class="hero">
-            <!-- Left column -->
+            <!-- Left -->
             <div class="left">
                 <h1 class="greeting">🎉 Happy 22th Birthday Francisco 🎉</h1>
                 <p class="sub">Wishing you all the best on your special day!</p>
 
                 <!-- Francisco photo -->
                 <div class="photo-wrap">
-                    <img src="assets/francisco.jpg" alt="Francisco" class="responsive-img"
+                    <img src="assets/francisco.jpg" alt="Francisco"
                         onerror="this.onerror=null; this.src='assets/placeholder.svg';">
                 </div>
 
-                <!-- Birthday song -->
+                <!-- Song -->
                 <div class="audio-row">
                     <audio id="song" src="assets/happy_birthday.mp3" autoplay loop></audio>
                 </div>
             </div>
 
-            <!-- Right column -->
+            <!-- Right -->
             <div class="right">
-                <!-- Cake image with placeholder fallback -->
-                <div class="cake-scene">
-                    <div class="cake-wrap"
-                        style="width:280px; border-radius:12px; overflow:hidden; border:6px solid #fff; box-shadow:0 6px 18px rgba(0,0,0,0.12); background:#f6f0ff;">
-                        <img src="assets/cake.jpg" alt="Birthday Cake" class="responsive-img"
-                            onerror="this.onerror=null; this.src='assets/placeholder.svg';">
-                    </div>
+                <div class="cake-wrap">
+                    <img src="assets/cake.jpg" alt="Birthday Cake"
+                        onerror="this.onerror=null; this.src='assets/placeholder.svg';">
                 </div>
+            </div>
+
+            <!-- Message card -->
+            <div class="message-card">
+                <h2>💙 A Note for You 💙</h2>
+                🎉 Happy 22nd Birthday, Francisco! 🎉<br><br>
+                Today isn’t just another day—it’s the celebration of someone who’s been a constant in my life since the
+                very beginning of college. Happy birthday to one of my closest friends, my dormmate, my bordermate, and
+                my brother in every sense that matters.<br><br>
+                From the moment we started this journey, you’ve been there—not just physically beside me in the same
+                room or under the same roof, but emotionally, mentally, and spiritually. We’ve faced challenges that
+                would’ve been overwhelming alone, but together, we found strength. We’ve shared late nights filled with
+                stress, laughter, and quiet understanding. We’ve seen each other at our lowest and still chose to stand
+                by each other.<br><br>
+                Happy birthday, Francisco. You’ve been the kind of friend who doesn’t just talk about loyalty—you live
+                it. I’ll never forget the times you cooked for me when I was buried in schoolwork, too tired to think
+                about food, and too focused to ask for help. You just knew. And you showed up. That kind of care? That’s
+                rare. That’s real.<br><br>
+                You’ve taught me that friendship isn’t always loud—it’s in the small things. In the shared silence. In
+                the unspoken support. In the way you always made sure I was okay, even when you had your own battles to
+                fight.<br><br>
+                Now, as you step into 22, I want you to know how proud I am of you. You’ve grown so much—not just in
+                skill or knowledge, but in character. And I know you’re just getting started. So happy birthday, yot.
+                May this year bring you clarity, strength, and the kind of breakthroughs you’ve been working so hard
+                for.<br><br>
+                I’m wishing you all the best in your studies. May your mind stay sharp, your heart stay steady, and your
+                goals stay in sight. You’ve got the discipline, the drive, and the resilience to make it through—and I
+                believe in you completely.<br><br>
+                So here’s to more memories, more meals shared, more victories earned.<br>
+                Here’s to the quiet moments that mean everything, and the loud celebrations that remind us how far we’ve
+                come.<br>
+                Here’s to you.<br><br>
+                Happy birthday, Francisco. Keep going. Keep growing. Keep being the incredible person you are. 💙
             </div>
         </div>
     </div>
 
-    <!-- Autoplay fallback for browsers -->
+    <!-- Sparkles & notes -->
+    <div class="sparkles"></div>
+    <div class="notes">🎵 🎶</div>
+
+    <!-- Balloons -->
+    <div id="balloons"></div>
+
     <script>
+        // Music autoplay fallback
         document.addEventListener("DOMContentLoaded", function () {
             const song = document.getElementById("song");
             if (song) {
                 song.play().catch(() => {
-                    // if autoplay is blocked, start on first user tap
                     document.body.addEventListener("click", () => song.play(), { once: true });
                 });
+            }
+
+            // Balloons
+            const balloonColors = ["#ff477e", "#ffd166", "#06d6a0", "#118ab2", "#ef476f", "#9b5de5"];
+            const balloons = document.getElementById("balloons");
+            for (let i = 0; i < 20; i++) {
+                const b = document.createElement("div");
+                b.className = "balloon";
+                b.style.left = Math.random() * 100 + "vw";
+                b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                b.style.animationDuration = (6 + Math.random() * 6) + "s";
+                b.style.width = 40 + Math.random() * 40 + "px";
+                b.style.height = 60 + Math.random() * 40 + "px";
+                balloons.appendChild(b);
+            }
+
+            // Sparkles
+            const sparkles = document.querySelector(".sparkles");
+            for (let i = 0; i < 50; i++) {
+                const s = document.createElement("span");
+                s.style.left = Math.random() * 100 + "vw";
+                s.style.top = Math.random() * 100 + "vh";
+                s.style.animationDelay = (Math.random() * 5) + "s";
+                sparkles.appendChild(s);
             }
         });
     </script>
