@@ -7,7 +7,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Happy Birthday</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ✅ mobile scaling -->
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* Extra responsive tweaks */
+    .cake-wrap,
+    .photo-wrap {
+        max-width: 100%;
+        height: auto;
+    }
+
+    img.responsive-img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    @media (max-width: 600px) {
+        .greeting {
+            font-size: 1.6rem;
+            text-align: center;
+        }
+
+        .sub {
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .hero {
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1.2rem;
+        }
+
+        .left,
+        .right {
+            width: 100%;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .cake-wrap {
+            width: 90% !important;
+            margin: 0 auto;
+        }
+
+        .photo-wrap {
+            margin: 0 auto;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -20,7 +69,7 @@
 
                 <!-- Francisco photo -->
                 <div class="photo-wrap">
-                    <img src="assets/francisco.jpg" alt="Francisco"
+                    <img src="assets/francisco.jpg" alt="Francisco" class="responsive-img"
                         onerror="this.onerror=null; this.src='assets/placeholder.svg';">
                 </div>
 
@@ -36,9 +85,8 @@
                 <div class="cake-scene">
                     <div class="cake-wrap"
                         style="width:280px; border-radius:12px; overflow:hidden; border:6px solid #fff; box-shadow:0 6px 18px rgba(0,0,0,0.12); background:#f6f0ff;">
-                        <img src="assets/cake.gif" alt="Birthday Cake"
-                            onerror="this.onerror=null; this.src='assets/placeholder.svg';"
-                            style="width:100%; height:auto; display:block;">
+                        <img src="assets/cake.gif" alt="Birthday Cake" class="responsive-img"
+                            onerror="this.onerror=null; this.src='assets/placeholder.svg';">
                     </div>
                 </div>
             </div>
@@ -51,7 +99,7 @@
         const song = document.getElementById("song");
         if (song) {
             song.play().catch(() => {
-                // if autoplay is blocked, unmute on first user click
+                // if autoplay is blocked, start on first user tap
                 document.body.addEventListener("click", () => song.play(), {
                     once: true
                 });
