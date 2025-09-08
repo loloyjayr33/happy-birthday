@@ -528,4 +528,72 @@
     </script>
 </body>
 
+<style>
+    /* ... (all your existing styles unchanged above) ... */
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        body {
+            padding-top: 4rem;
+            /* prevent ribbon overlap */
+        }
+
+        .hero {
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1.5rem;
+            border-radius: 18px;
+        }
+
+        .left,
+        .right,
+        .message-card {
+            width: 100%;
+            text-align: center;
+        }
+
+        .greeting {
+            font-size: 2rem;
+            line-height: 1.3;
+        }
+
+        .sub {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .photo-wrap {
+            width: 180px;
+            height: 180px;
+        }
+
+        .cake-wrap {
+            width: 240px;
+        }
+
+        .message-card {
+            font-size: 0.95rem;
+            padding: 1.2rem;
+            max-height: 50vh;
+            /* shorter for small screens */
+            overflow-y: auto;
+        }
+
+        /* Mobile scrollbar style */
+        .message-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .message-card::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff477e, #ffd166);
+            border-radius: 3px;
+        }
+
+        .message-card::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+    }
+</style>
+
+
 </html>
