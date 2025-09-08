@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 200 200">
+  <rect width="100%" height="100%" fill="#fff6f0" rx="16"/>
+  <g transform="translate(20,20)">
+    <circle cx="80" cy="60" r="36" fill="#ffd7a6" stroke="#ffb57a" stroke-width="3"/>
+    <rect x="20" y="110" width="120" height="50" rx="10" fill="#fff" stroke="#ffd7a6" stroke-width="3"/>
+    <text x="80" y="160" font-family="sans-serif" font-size="12" fill="#c76b3f" text-anchor="middle">Francisco's Photo</text>
+  </g>
+</svg>

@@ -1,0 +1,284 @@
+:root {
+    --bg1: linear-gradient(135deg, #ffefba, #ffc3a0);
+    --accent: #ff6b6b;
+    --accent-2: #ffd166;
+    --cake-cream: #fff6f0;
+    --cake-choc: #c76b3f;
+}
+
+* {
+    box-sizing: border-box
+}
+
+body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg1);
+    color: #222
+}
+
+.page {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.hero {
+    max-width: 1100px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: center
+}
+
+.left {
+    flex: 1;
+    min-width: 260px
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.greeting {
+    font-size: clamp(1.8rem, 4vw, 3.2rem);
+    margin: 0 0 .5rem;
+    color: var(--accent)
+}
+
+.sub {
+    margin: 0 0 1rem;
+    color: #444
+}
+
+.photo-wrap {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 6px solid #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    background: linear-gradient(180deg, #fff, #f6f0ff);
+}
+
+.photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block
+}
+
+.audio-row {
+    margin-top: 1rem
+}
+
+.cake-scene {
+    width: 320px;
+    max-width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.cake {
+    width: 280px;
+    position: relative
+}
+
+.layer {
+    height: 36px;
+    border-radius: 16px;
+    margin: 6px 0;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12)
+}
+
+.layer-top {
+    background: var(--cake-cream);
+    height: 34px;
+    transform: translateY(-10px)
+}
+
+.layer-middle {
+    background: var(--accent-2)
+}
+
+.layer-bottom {
+    background: var(--cake-choc);
+    height: 60px
+}
+
+.candles {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -18px;
+    display: flex;
+    gap: 10px
+}
+
+.candle {
+    width: 10px;
+    height: 36px;
+    background: #ffe8d6;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: inset 0 -4px 6px rgba(0, 0, 0, 0.08)
+}
+
+.candle::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 20px;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.06);
+    transform: translateX(-50%);
+    border-radius: 50%
+}
+
+.flame {
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    width: 12px;
+    height: 18px;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 40% 40%;
+    filter: blur(.2px);
+    opacity: 0.96;
+    /* use CSS variables to allow JS to nudge size/rotation */
+    --s: 1;
+    --r: 0deg;
+    transform-origin: 50% 90%;
+    will-change: transform, opacity, filter;
+    /* visual layers are created with pseudo elements below */
+}
+
+/* inner core and outer glow */
+.flame::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 2px;
+    width: 8px;
+    height: 12px;
+    transform: translateX(-50%) scale(var(--s));
+    background: radial-gradient(circle at 40% 30%, #fff 0%, #ffd76b 35%, #ff7a3d 70%);
+    border-radius: 50% 50% 40% 40%;
+    filter: blur(.6px);
+    opacity: 1;
+}
+
+.flame::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -6px;
+    width: 28px;
+    height: 28px;
+    transform: translateX(-50%);
+    background: radial-gradient(circle at 50% 40%, rgba(255, 200, 110, 0.9) 0%, rgba(255, 120, 60, 0.12) 40%, transparent 65%);
+    border-radius: 50%;
+    filter: blur(6px);
+    opacity: .9;
+}
+
+/* subtle keyframe for ambient glow (looping) */
+@keyframes glow-pulse {
+    0% {
+        filter: blur(5px);
+        opacity: .85
+    }
+
+    50% {
+        filter: blur(7px);
+        opacity: 1
+    }
+
+    100% {
+        filter: blur(5px);
+        opacity: .85
+    }
+}
+
+.flame::after {
+    animation: glow-pulse 1.6s ease-in-out infinite;
+}
+
+/* smoke puffs */
+.smoke {
+    position: absolute;
+    left: 50%;
+    top: -6px;
+    width: 8px;
+    height: 8px;
+    transform: translateX(-50%) translateY(0) scale(1);
+    background: radial-gradient(circle at 40% 40%, rgba(180, 180, 180, 0.9) 0%, rgba(180, 180, 180, 0.5) 30%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: .9;
+    will-change: transform, opacity;
+    animation: smoke-rise 2.6s ease-out forwards;
+}
+
+@keyframes smoke-rise {
+    0% {
+        transform: translateX(-50%) translateY(0) scale(1);
+        opacity: .9
+    }
+
+    40% {
+        transform: translateX(-60%) translateY(-18px) scale(1.2);
+        opacity: .6
+    }
+
+    70% {
+        transform: translateX(-40%) translateY(-36px) scale(1.6);
+        opacity: .35
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-56px) scale(2);
+        opacity: 0
+    }
+}
+
+/* subtle sway for candle body */
+.candle {
+    transition: transform .2s ease;
+}
+
+/* flicker animation applied via JS for more natural timing */
+
+/* Responsive tweaks */
+@media (max-width:800px) {
+    .hero {
+        flex-direction: column;
+        padding: 1.25rem
+    }
+
+    .right {
+        margin-top: 1rem
+    }
+}
+
+/* small decorative confetti */
+.page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(#fff2 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.15
+}
