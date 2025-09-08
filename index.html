@@ -47,7 +47,6 @@
         .hero {
             max-width: 1250px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.2);
             border-radius: 24px;
             padding: 2rem;
             display: flex;
@@ -55,21 +54,20 @@
             gap: 2rem;
             align-items: flex-start;
             position: relative;
-            backdrop-filter: blur(15px) saturate(150%);
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
             animation: fadeIn 1.5s ease;
             overflow: hidden;
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .hero::before {
             content: "";
             position: absolute;
-            inset: -3px;
-            border-radius: 26px;
-            background: linear-gradient(45deg, #ff477e, #ffd166, #06d6a0, #118ab2, #ef476f, #ff477e);
-            background-size: 300% 300%;
-            animation: borderGlow 6s linear infinite;
-            z-index: -1;
+            inset: 0;
+            background: inherit;
+            backdrop-filter: blur(15px) saturate(150%);
+            border-radius: inherit;
+            z-index: 0;
         }
 
         .hero::after {
@@ -79,6 +77,13 @@
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             opacity: 0.15;
             pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero>* {
+            position: relative;
+            z-index: 1;
+            /* keep content sharp */
         }
 
         @keyframes borderGlow {
