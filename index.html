@@ -5,12 +5,43 @@
     <meta charset="UTF-8">
     <title>Happy Birthday</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A personalized animated Happy Birthday greeting for Francisco.">
+    <meta name="theme-color" content="#ff477e" />
     <style>
+        :root {
+            --grad: linear-gradient(270deg, #ff9a9e, #fad0c4, #fcb69f, #ffecd2);
+            --card-bg: rgba(255, 255, 255, 0.25);
+            --text-gradient: linear-gradient(90deg, #ff477e, #ff9a9e, #ffd166, #06d6a0, #118ab2);
+            --accent: #ff477e;
+            --accent-alt: #118ab2;
+            --shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+            --radius-lg: 24px;
+            --radius-md: 18px;
+            --focus-ring: 0 0 0 3px rgba(255, 71, 126, 0.35);
+        }
+
+        .dark-mode {
+            --grad: linear-gradient(270deg, #1e3c72, #2a5298, #243b55, #141e30);
+            --card-bg: rgba(30, 38, 54, 0.55);
+            --text-gradient: linear-gradient(90deg, #ff9a9e, #ffd166, #06d6a0, #82eaff, #d4a5ff);
+            --accent: #ffd166;
+            --accent-alt: #82eaff;
+            --shadow: 0 15px 50px rgba(0, 0, 0, 0.55);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.001s !important;
+                animation-iteration-count: 1 !important;
+                transition: none !important;
+            }
+        }
+
         /* Background */
         body {
             margin: 0;
             font-family: "Segoe UI", Roboto, Arial, sans-serif;
-            background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fcb69f, #ffecd2);
+            background: var(--grad);
             background-size: 800% 800%;
             animation: gradientShift 20s ease infinite;
             min-height: 100vh;
@@ -18,6 +49,7 @@
             align-items: center;
             justify-content: center;
             overflow-x: hidden;
+            color: #222;
         }
 
         @keyframes gradientShift {
@@ -47,17 +79,19 @@
         .hero {
             max-width: 1250px;
             width: 100%;
-            border-radius: 24px;
-            padding: 2rem;
+            border-radius: var(--radius-lg);
+            padding: 2.3rem 2.4rem 2.8rem;
             display: flex;
             flex-wrap: wrap;
             gap: 2rem;
             align-items: flex-start;
             position: relative;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 1.5s ease;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1.2s ease;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--card-bg);
+            backdrop-filter: blur(18px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.35);
         }
 
         .hero::before {
@@ -114,16 +148,18 @@
 
         /* Greeting */
         .greeting {
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            margin: 0 0 .5rem;
+            font-size: clamp(2rem, 5vw, 3.1rem);
+            margin: 0 0 .65rem;
             font-weight: 900;
-            background: linear-gradient(90deg, #ff477e, #ff9a9e, #ffd166, #06d6a0, #118ab2);
+            background: var(--text-gradient);
             background-size: 300% 300%;
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shineText 8s linear infinite, float 3s ease-in-out infinite;
+            animation: shineText 10s linear infinite, float 3s ease-in-out infinite;
             text-align: center;
-            text-shadow: 0 0 12px rgba(255, 71, 126, 0.6);
+            text-shadow: 0 0 14px rgba(255, 71, 126, 0.55);
+            letter-spacing: .5px;
         }
 
         @keyframes shineText {
@@ -155,10 +191,54 @@
         }
 
         .sub {
-            margin: 0 0 1.2rem;
+            margin: 0 0 1.4rem;
             color: #222;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             text-align: center;
+            font-weight: 500;
+        }
+
+        /* Utility toolbar */
+        .toolbar {
+            display: flex;
+            gap: .75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 0 0 1.2rem;
+        }
+
+        .toolbar button {
+            background: rgba(255, 255, 255, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px) saturate(160%);
+            padding: .65rem 1rem;
+            border-radius: 40px;
+            font-size: .85rem;
+            font-weight: 600;
+            letter-spacing: .5px;
+            cursor: pointer;
+            color: #222;
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            position: relative;
+            transition: background .35s ease, transform .35s ease, color .35s ease;
+        }
+
+        .toolbar button:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .toolbar button:focus-visible {
+            outline: none;
+            box-shadow: var(--focus-ring);
+        }
+
+        .toolbar button.active {
+            background: var(--accent-alt);
+            color: #0c2233;
         }
 
         /* Frames */
@@ -257,27 +337,31 @@
             flex: 1;
             min-width: 280px;
             max-width: 500px;
-            background: #fffdfa;
-            padding: 1.8rem;
-            border-radius: 18px;
+            background: linear-gradient(145deg, #fffdfa 0%, #fff8f4 60%, #fff 100%);
+            padding: 1.9rem 1.9rem 2.1rem;
+            border-radius: var(--radius-md);
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
-            line-height: 1.6;
+            line-height: 1.62;
             font-size: 1rem;
             color: #444;
             position: relative;
-            animation: fadeIn 2s ease;
-            border: 2px solid rgba(255, 71, 126, 0.3);
+            animation: fadeIn 1.7s ease;
+            border: 2px solid rgba(255, 71, 126, 0.28);
             max-height: 70vh;
             overflow-y: auto;
         }
 
         .message-card h2 {
             font-family: "Brush Script MT", cursive;
-            font-size: 1.8rem;
-            color: #ff477e;
+            font-size: 1.9rem;
+            background: var(--text-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             margin-top: 0;
             margin-bottom: 1rem;
             text-align: center;
+            letter-spacing: .5px;
         }
 
         .message-card::before {
@@ -306,7 +390,8 @@
             height: 4px;
             background: #fff;
             border-radius: 50%;
-            animation: sparkle 3s ease-in-out infinite;
+            animation: sparkle 3.3s ease-in-out infinite;
+            box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.55);
         }
 
         @keyframes sparkle {
@@ -358,12 +443,25 @@
         /* Music notes */
         .notes {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            color: #ff477e;
-            animation: bounce 2s infinite;
+            bottom: 18px;
+            right: 18px;
+            font-size: 1.4rem;
+            color: var(--accent);
+            animation: bounce 2.2s infinite;
             z-index: 2;
+            user-select: none;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
         }
 
         @keyframes bounce {
@@ -419,8 +517,8 @@
 
             .message-card {
                 font-size: 0.95rem;
-                padding: 1.2rem;
-                max-height: 50vh;
+                padding: 1.2rem 1.1rem 1.4rem;
+                max-height: 55vh;
                 overflow-y: auto;
             }
 
@@ -448,30 +546,33 @@
             <div class="left">
                 <h1 class="greeting">🎉 Happy 22nd Birthday Francisco 🎉</h1>
                 <p class="sub">Wishing you all the best on your special day!</p>
+                <div class="toolbar" role="group" aria-label="Controls">
+                    <button id="toggleAudio" type="button" aria-pressed="true" title="Play or pause birthday song">🔊 Music</button>
+                    <button id="toggleTheme" type="button" aria-pressed="false" title="Toggle dark mode">🌙 Dark</button>
+                    <button id="reduceMotion" type="button" aria-pressed="false" title="Toggle motion effects">🌀 Motion</button>
+                </div>
 
                 <!-- Francisco photo -->
-                <div class="photo-wrap">
-                    <img src="assets/francisco.jpg" alt="Francisco"
-                        onerror="this.onerror=null; this.src='assets/placeholder.svg';">
+                <div class="photo-wrap" aria-label="Photo frame">
+                    <img src="assets/francisco.jpg" alt="Portrait of Francisco smiling" onerror="this.onerror=null; this.src='assets/placeholder.svg';">
                 </div>
 
                 <!-- Song -->
                 <div class="audio-row">
-                    <audio id="song" src="assets/happy_birthday.mp3" autoplay loop></audio>
+                    <audio id="song" src="assets/happy_birthday.mp3" autoplay loop aria-label="Birthday song"></audio>
                 </div>
             </div>
 
             <!-- Right -->
             <div class="right">
-                <div class="cake-wrap">
-                    <img src="assets/cake.gif" alt="Birthday Cake"
-                        onerror="this.onerror=null; this.src='assets/placeholder.svg';">
+                <div class="cake-wrap" aria-hidden="true">
+                    <img src="assets/cake.gif" alt="Animated birthday cake" onerror="this.onerror=null; this.src='assets/placeholder.svg';">
                 </div>
             </div>
 
             <!-- Message card -->
-            <div class="message-card">
-                <h2>💙 A Note for You 💙</h2>
+            <div class="message-card" role="article" aria-labelledby="noteTitle">
+                <h2 id="noteTitle">💙 A Note for You 💙</h2>
                 🎉 Happy 22nd Birthday, Francisco! 🎉<br><br>
                 Today isn’t just another day—it’s the celebration of someone who’s been a constant in my life since the
                 very beginning of college. Happy birthday to one of my closest friends, my dormmate, my bordermate, and
@@ -513,37 +614,128 @@
 
     <script>
         // Music autoplay fallback
-        document.addEventListener("DOMContentLoaded", function () {
-            const song = document.getElementById("song");
+        document.addEventListener("DOMContentLoaded", () => {
+            const song = document.getElementById('song');
+            const btnAudio = document.getElementById('toggleAudio');
+            const btnTheme = document.getElementById('toggleTheme');
+            const btnMotion = document.getElementById('reduceMotion');
+
+            // Persisted states
+            const storedTheme = localStorage.getItem('hb-theme');
+            const storedMotion = localStorage.getItem('hb-motion');
+
+            if (storedTheme === 'dark') {
+                document.documentElement.classList.add('dark-mode');
+                btnTheme.setAttribute('aria-pressed', 'true');
+                btnTheme.textContent = '☀️ Light';
+            }
+
+            if (storedMotion === 'reduced') {
+                document.documentElement.classList.add('reduce-motion');
+                btnMotion.setAttribute('aria-pressed', 'true');
+                btnMotion.textContent = '🌀 Motion: Off';
+            }
+
+            // Audio
             if (song) {
+                song.volume = 0.85;
                 song.play().catch(() => {
-                    document.body.addEventListener("click", () => song.play(), { once: true });
+                    btnAudio.setAttribute('aria-pressed', 'false');
+                    btnAudio.textContent = '🔈 Music';
                 });
             }
 
+            btnAudio?.addEventListener('click', () => {
+                if (!song) return;
+                if (song.paused) {
+                    song.play();
+                    btnAudio.setAttribute('aria-pressed', 'true');
+                    btnAudio.textContent = '🔊 Music';
+                } else {
+                    song.pause();
+                    btnAudio.setAttribute('aria-pressed', 'false');
+                    btnAudio.textContent = '🔈 Music';
+                }
+            });
+
+            // Theme toggle
+            btnTheme?.addEventListener('click', () => {
+                const dark = document.documentElement.classList.toggle('dark-mode');
+                btnTheme.setAttribute('aria-pressed', String(dark));
+                btnTheme.textContent = dark ? '☀️ Light' : '🌙 Dark';
+                localStorage.setItem('hb-theme', dark ? 'dark' : 'light');
+            });
+
+            // Motion toggle (manual override)
+            btnMotion?.addEventListener('click', () => {
+                const reduced = document.documentElement.classList.toggle('reduce-motion');
+                btnMotion.setAttribute('aria-pressed', String(reduced));
+                btnMotion.textContent = reduced ? '🌀 Motion: Off' : '🌀 Motion';
+                localStorage.setItem('hb-motion', reduced ? 'reduced' : 'full');
+                if (reduced) {
+                    // Pause floating animations
+                    document.querySelectorAll('*').forEach(el => {
+                        if (getComputedStyle(el).animationName.includes('float')) {
+                            el.dataset._anim = el.style.animation;
+                            el.style.animation = 'none';
+                        }
+                    });
+                } else {
+                    document.querySelectorAll('[data-_anim]').forEach(el => {
+                        el.style.animation = el.dataset._anim;
+                        delete el.dataset._anim;
+                    });
+                }
+            });
+
             // Balloons
             const balloonColors = ["#ff477e", "#ffd166", "#06d6a0", "#118ab2", "#ef476f", "#9b5de5"];
-            const balloons = document.getElementById("balloons");
-            for (let i = 0; i < 20; i++) {
-                const b = document.createElement("div");
-                b.className = "balloon";
-                b.style.left = Math.random() * 100 + "vw";
+            const balloons = document.getElementById('balloons');
+            for (let i = 0; i < 22; i++) { // 22 balloons for age
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.setAttribute('aria-hidden', 'true');
+                b.style.left = Math.random() * 100 + 'vw';
                 b.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-                b.style.animationDuration = (6 + Math.random() * 6) + "s";
-                b.style.width = 40 + Math.random() * 40 + "px";
-                b.style.height = 60 + Math.random() * 40 + "px";
+                b.style.animationDuration = (6 + Math.random() * 6) + 's';
+                b.style.width = 40 + Math.random() * 40 + 'px';
+                b.style.height = 60 + Math.random() * 40 + 'px';
                 balloons.appendChild(b);
             }
 
             // Sparkles
-            const sparkles = document.querySelector(".sparkles");
-            for (let i = 0; i < 50; i++) {
-                const s = document.createElement("span");
-                s.style.left = Math.random() * 100 + "vw";
-                s.style.top = Math.random() * 100 + "vh";
-                s.style.animationDelay = (Math.random() * 5) + "s";
+            const sparkles = document.querySelector('.sparkles');
+            for (let i = 0; i < 60; i++) {
+                const s = document.createElement('span');
+                s.setAttribute('aria-hidden', 'true');
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.top = Math.random() * 100 + 'vh';
+                s.style.animationDelay = (Math.random() * 5) + 's';
                 sparkles.appendChild(s);
             }
+
+            // Confetti on greeting click (lightweight)
+            const greeting = document.querySelector('.greeting');
+            greeting?.addEventListener('click', (e) => {
+                for (let i = 0; i < 18; i++) {
+                    const piece = document.createElement('span');
+                    piece.style.position = 'fixed';
+                    piece.style.width = piece.style.height = (4 + Math.random() * 6) + 'px';
+                    piece.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                    piece.style.left = (e.clientX + (Math.random() * 120 - 60)) + 'px';
+                    piece.style.top = (e.clientY + (Math.random() * 40 - 20)) + 'px';
+                    piece.style.borderRadius = '2px';
+                    piece.style.opacity = '0.9';
+                    piece.style.transform = 'translateY(0)';
+                    piece.style.transition = 'transform .9s ease, opacity .9s ease';
+                    document.body.appendChild(piece);
+                    requestAnimationFrame(() => {
+                        piece.style.transform = `translateY(${80 + Math.random() * 120}px) rotate(${Math.random() * 480}deg)`;
+                        piece.style.opacity = '0';
+                    });
+                    setTimeout(() => piece.remove(), 1100);
+                }
+            });
         });
     </script>
 </body>
